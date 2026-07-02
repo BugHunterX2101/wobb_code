@@ -89,23 +89,23 @@ export function ProfileCard({
     return (
       <div
         onClick={handleClick}
-        className="group flex items-center gap-3 p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors"
+        className="group flex items-center gap-3 p-3 rounded-lg border border-purple-500/30 hover:bg-white/10 cursor-pointer transition-colors"
       >
         <Avatar className="h-10 w-10">
           <AvatarImage src={profile.picture} alt={profile.username} />
-          <AvatarFallback className="text-xs font-medium">
+          <AvatarFallback className="text-xs font-medium bg-purple-500/30 text-white">
             {profile.username.charAt(0).toUpperCase()}
           </AvatarFallback>
         </Avatar>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 truncate">
-            <span className="font-medium truncate">@{profile.username}</span>
+            <span className="font-medium truncate text-white">@{profile.username}</span>
             {profile.is_verified && <Badge variant="verified" className="flex-shrink-0">✓ Verified</Badge>}
           </div>
-          <p className="text-sm text-gray-500 truncate">{profile.fullname}</p>
+          <p className="text-sm text-gray-400 truncate">{profile.fullname}</p>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-600">{formatFollowers(profile.followers)}</span>
+          <span className="text-sm text-gray-300">{formatFollowers(profile.followers)}</span>
           <Button
             variant={isSaved ? "secondary" : "outline"}
             size="icon"
@@ -122,13 +122,13 @@ export function ProfileCard({
   return (
     <div
       onClick={handleClick}
-      className="group relative flex items-center gap-4 p-4 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 hover:shadow-md transition-all duration-200 cursor-pointer"
+      className="group relative flex items-center gap-4 p-4 rounded-xl border border-purple-500/30 bg-white/5 hover:bg-white/10 hover:shadow-md hover:shadow-purple-500/20 transition-all duration-200 cursor-pointer"
       data-search={searchQuery}
     >
       <div className="relative flex-shrink-0">
         <Avatar className="h-16 w-16">
           <AvatarImage src={profile.picture} alt={profile.username} />
-          <AvatarFallback className="text-xl font-medium bg-gradient-to-br from-gray-200 to-gray-300">
+          <AvatarFallback className="text-xl font-medium bg-gradient-to-br from-purple-500/30 to-pink-500/30 text-white">
             {profile.username.charAt(0).toUpperCase()}
           </AvatarFallback>
         </Avatar>
@@ -141,7 +141,7 @@ export function ProfileCard({
 
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap">
-          <h3 className="font-semibold text-gray-900 truncate">@{profile.username}</h3>
+          <h3 className="font-semibold text-white truncate">@{profile.username}</h3>
           <span
             className={cn(
               "inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded-full",
@@ -152,9 +152,9 @@ export function ProfileCard({
             <span className="text-white capitalize">{platform}</span>
           </span>
         </div>
-        <p className="mt-1 text-gray-600 truncate">{profile.fullname}</p>
-        <div className="mt-2 flex items-center gap-4 text-sm text-gray-500">
-          <span className="font-medium text-gray-700">{formatFollowers(profile.followers)}</span>
+        <p className="mt-1 text-gray-300 truncate">{profile.fullname}</p>
+        <div className="mt-2 flex items-center gap-4 text-sm text-gray-400">
+          <span className="font-medium text-purple-300">{formatFollowers(profile.followers)}</span>
           {profile.engagement_rate && (
             <span>ER: {(profile.engagement_rate * 100).toFixed(2)}%</span>
           )}

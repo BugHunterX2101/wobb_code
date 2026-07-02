@@ -22,7 +22,7 @@ export function SearchPage() {
   return (
     <Layout title="Find Influencers">
       <div className="max-w-4xl mx-auto">
-        <p className="text-gray-600 mb-8 text-center">
+        <p className="text-gray-300 mb-8 text-center">
           Browse top creators across social platforms
         </p>
 
@@ -34,10 +34,10 @@ export function SearchPage() {
         />
 
         <div className="mb-4 flex items-center justify-between">
-          <p className="text-sm text-gray-500">
-            Showing <span className="font-medium text-gray-900">{filtered.length}</span> of{" "}
-            <span className="font-medium text-gray-900">{allProfiles.length}</span> on{" "}
-            <span className="capitalize font-medium">{platform}</span>
+          <p className="text-sm text-gray-400">
+            Showing <span className="font-medium text-white">{filtered.length}</span> of{" "}
+            <span className="font-medium text-white">{allProfiles.length}</span> on{" "}
+            <span className="capitalize font-medium text-purple-300">{platform}</span>
           </p>
         </div>
 

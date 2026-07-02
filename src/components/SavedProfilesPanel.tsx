@@ -37,8 +37,8 @@ export function SavedProfilesPanel() {
             </Badge>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-80 p-0">
-          <div className="p-4 text-center text-gray-500">
+        <DropdownMenuContent align="end" className="w-80 p-0 bg-gray-900 border-purple-500/30">
+          <div className="p-4 text-center text-gray-400">
             <Users className="h-8 w-8 mx-auto mb-2 opacity-50" />
             <p className="text-sm">Your list is empty</p>
             <p className="text-xs mt-1">Search for influencers and add them to your list</p>
@@ -59,28 +59,28 @@ export function SavedProfilesPanel() {
           </Badge>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-96 p-0 max-h-[60vh] overflow-hidden">
-        <div className="p-4 border-b flex items-center justify-between">
-          <DropdownMenuLabel className="font-semibold">Saved Profiles ({count})</DropdownMenuLabel>
+      <DropdownMenuContent align="end" className="w-96 p-0 max-h-[60vh] overflow-hidden bg-gray-900 border-purple-500/30">
+        <div className="p-4 border-b border-purple-500/30 flex items-center justify-between">
+          <DropdownMenuLabel className="font-semibold text-white">Saved Profiles ({count})</DropdownMenuLabel>
         </div>
         <div className="max-h-[40vh] overflow-y-auto p-2">
           {savedProfiles.length === 0 ? (
-            <div className="p-4 text-center text-gray-500 text-sm">No profiles saved yet</div>
+            <div className="p-4 text-center text-gray-400 text-sm">No profiles saved yet</div>
           ) : (
             savedProfiles.map((profile) => (
               <div
                 key={profile.user_id}
-                className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors group"
+                className="flex items-center gap-3 p-2 hover:bg-white/10 rounded-lg transition-colors group"
               >
                 <Avatar className="h-10 w-10 flex-shrink-0">
                   <AvatarImage src={profile.picture} alt={profile.fullname} />
-                  <AvatarFallback className="text-xs font-medium">
+                  <AvatarFallback className="text-xs font-medium bg-purple-500/30 text-white">
                     {profile.fullname.charAt(0)}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5">
-                    <span className="font-medium text-sm truncate">@{profile.username}</span>
+                    <span className="font-medium text-sm truncate text-white">@{profile.username}</span>
                     <Badge variant="verified" className="text-xs">
                       {platformIcons[profile.platform]}
                     </Badge>
@@ -90,8 +90,8 @@ export function SavedProfilesPanel() {
                       </Badge>
                     )}
                   </div>
-                  <div className="text-xs text-gray-500 truncate">{profile.fullname}</div>
-                  <div className="text-xs text-gray-400">{formatFollowers(profile.followers)} followers</div>
+                  <div className="text-xs text-gray-400 truncate">{profile.fullname}</div>
+                  <div className="text-xs text-gray-500">{formatFollowers(profile.followers)} followers</div>
                 </div>
                 <div className="flex items-center gap-1">
                   <Button
@@ -111,14 +111,13 @@ export function SavedProfilesPanel() {
             ))
           )}
         </div>
-        <DropdownMenuSeparator className="mx-2" />
+        <DropdownMenuSeparator className="mx-2 bg-purple-500/30" />
         <div className="p-2">
           <Button
             variant="outline"
-            className="w-full gap-2"
+            className="w-full gap-2 border-purple-500/30 hover:bg-white/10"
             onClick={() => {
               setIsOpen(false);
-              // Navigate to search page if not already there
               window.location.href = "/";
             }}
           >

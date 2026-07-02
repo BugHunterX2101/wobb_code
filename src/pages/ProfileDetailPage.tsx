@@ -87,8 +87,8 @@ export function ProfileDetailPage() {
     return (
       <Layout>
         <div className="text-center py-12">
-          <p className="text-gray-500">Invalid profile</p>
-          <Link to="/" className="text-blue-600 hover:underline mt-4 inline-block">
+          <p className="text-gray-400">Invalid profile</p>
+          <Link to="/" className="text-purple-400 hover:text-purple-300 hover:underline mt-4 inline-block">
             Back to search
           </Link>
         </div>
@@ -102,7 +102,7 @@ export function ProfileDetailPage() {
         <div className="flex items-center justify-center min-h-[400px]">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-4 border-purple-500 border-t-transparent mx-auto mb-4" />
-            <p className="text-gray-500">Loading profile...</p>
+            <p className="text-gray-400">Loading profile...</p>
           </div>
         </div>
       </Layout>
@@ -113,8 +113,8 @@ export function ProfileDetailPage() {
     return (
       <Layout title={`@${username}`}>
         <div className="text-center py-12">
-          <p className="text-red-600 mb-4">Could not load profile details for @{username}</p>
-          <Link to="/" className="text-blue-600 hover:underline">
+          <p className="text-red-400 mb-4">Could not load profile details for @{username}</p>
+          <Link to="/" className="text-purple-400 hover:text-purple-300 hover:underline">
             Back to search
           </Link>
         </div>
@@ -129,19 +129,19 @@ export function ProfileDetailPage() {
       <div className="max-w-4xl mx-auto">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 mb-6 transition-colors"
+          className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white mb-6 transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to search
         </Link>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-          <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-8">
+        <div className="bg-white/5 rounded-2xl border border-purple-500/30 overflow-hidden">
+          <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 p-8">
             <div className="flex flex-col md:flex-row items-start md:items-center gap-6 max-w-4xl mx-auto">
               <div className="relative flex-shrink-0">
                 <Avatar className="h-28 w-28">
                   <AvatarImage src={user.picture} alt={user.fullname} />
-                  <AvatarFallback className="text-3xl font-medium bg-gradient-to-br from-gray-200 to-gray-300">
+                  <AvatarFallback className="text-3xl font-medium bg-gradient-to-br from-purple-500/30 to-pink-500/30 text-white">
                     {user.username.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
@@ -154,14 +154,14 @@ export function ProfileDetailPage() {
 
               <div className="flex-1 text-center md:text-left">
                 <div className="flex items-center justify-center md:justify-start gap-2 flex-wrap mb-2">
-                  <h2 className="text-2xl font-bold text-gray-900">@{user.username}</h2>
+                  <h2 className="text-2xl font-bold text-white">@{user.username}</h2>
                   {user.is_verified && (
                     <Badge variant="verified" className="flex items-center gap-1">
                       ✓ Verified
                     </Badge>
                   )}
                 </div>
-                <p className="text-gray-600 text-lg">{user.fullname}</p>
+                <p className="text-gray-300 text-lg">{user.fullname}</p>
                 <div className="mt-3 flex items-center justify-center md:justify-start gap-3">
                   <span
                     className={cn(
@@ -176,6 +176,7 @@ export function ProfileDetailPage() {
                     <Button
                       variant="outline"
                       size="sm"
+                      className="border-purple-500/30 hover:bg-white/10"
                       onClick={(e) => {
                         e.preventDefault();
                         window.open(user.url, "_blank", "noopener,noreferrer");
@@ -192,9 +193,9 @@ export function ProfileDetailPage() {
 
           <div className="p-8">
             {user.description && (
-              <div className="mb-8 p-6 bg-gray-50 rounded-xl">
-                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">Bio</h3>
-                <p className="text-gray-700 leading-relaxed">{user.description}</p>
+              <div className="mb-8 p-6 bg-white/5 rounded-xl border border-purple-500/20">
+                <h3 className="text-sm font-semibold text-purple-300 uppercase tracking-wider mb-2">Bio</h3>
+                <p className="text-gray-300 leading-relaxed">{user.description}</p>
               </div>
             )}
 
@@ -241,7 +242,7 @@ export function ProfileDetailPage() {
               )}
             </div>
 
-            <div className="pt-6 border-t border-gray-100">
+            <div className="pt-6 border-t border-purple-500/20">
               <Button
                 onClick={handleAddToList}
                 className={cn(
@@ -272,10 +273,10 @@ export function ProfileDetailPage() {
 
 function StatCard({ label, value, icon }: { label: string; value: string; icon: string }) {
   return (
-    <div className="bg-white border border-gray-100 rounded-xl p-5 text-center">
+    <div className="bg-white/5 border border-purple-500/30 rounded-xl p-5 text-center">
       <span className="text-2xl mb-2 block">{icon}</span>
-      <div className="text-2xl font-bold text-gray-900">{value}</div>
-      <div className="text-sm text-gray-500 mt-1">{label}</div>
+      <div className="text-2xl font-bold text-white">{value}</div>
+      <div className="text-sm text-gray-400 mt-1">{label}</div>
     </div>
   );
 }
