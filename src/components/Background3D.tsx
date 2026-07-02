@@ -127,10 +127,10 @@ export function Background3D() {
         x: Math.random() * width,
         y: Math.random() * height,
         text: word,
-        size: 10 + Math.random() * 8,
-        alpha: Math.random() * 0.12 + 0.03,
-        speed: 0.15 + Math.random() * 0.25,
-        drift: (Math.random() - 0.5) * 0.3,
+        size: 16 + Math.random() * 14,
+        alpha: Math.random() * 0.2 + 0.12,
+        speed: 0.2 + Math.random() * 0.3,
+        drift: (Math.random() - 0.5) * 0.4,
         hue: [280, 320, 260, 300, 340, 270, 290, 310][i % 8],
         phase: Math.random() * Math.PI * 2,
       });
@@ -394,12 +394,17 @@ export function Background3D() {
         const fade = Math.min(1, (h - tx.y) / (h * 0.3));
 
         ctx.save();
-        ctx.globalAlpha = tx.alpha * fade;
-        ctx.fillStyle = `hsla(${tx.hue}, 70%, 70%, 1)`;
-        ctx.font = `${tx.size}px "Inter", system-ui, sans-serif`;
+        ctx.globalAlpha = Math.min(tx.alpha * fade, 0.35);
+        ctx.fillStyle = `hsla(${tx.hue}, 80%, 75%, 1)`;
+        ctx.font = `600 ${tx.size}px "Inter", system-ui, sans-serif`;
         ctx.textAlign = "center";
-        ctx.shadowColor = `hsla(${tx.hue}, 80%, 60%, 0.4)`;
-        ctx.shadowBlur = 10;
+        ctx.shadowColor = `hsla(${tx.hue}, 80%, 60%, 0.6)`;
+        ctx.shadowBlur = 16;
+        ctx.fillText(tx.text, tx.x + wobble, tx.y);
+
+        // Second pass for extra glow
+        ctx.shadowBlur = 30;
+        ctx.globalAlpha = Math.min(tx.alpha * fade * 0.5, 0.15);
         ctx.fillText(tx.text, tx.x + wobble, tx.y);
         ctx.restore();
       });

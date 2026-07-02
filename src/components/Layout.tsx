@@ -1,10 +1,11 @@
 import type { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { SavedProfilesPanel } from "./SavedProfilesPanel";
 import { Background3D } from "./Background3D";
 import { Floating3DElements } from "./Floating3DElements";
 import { getPlatformIcon } from "./PlatformIcons";
+import { Reveal } from "./Reveal";
 
 interface LayoutProps {
   children: ReactNode;
@@ -18,12 +19,6 @@ const platforms = [
   { path: "/tiktok", label: "TikTok", platform: "tiktok" as const },
 ];
 
-const pageVariants = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
-  exit: { opacity: 0, y: -20, transition: { duration: 0.2 } },
-} as const;
-
 export function Layout({ children, title, showSavedProfiles = true }: LayoutProps) {
   const location = useLocation();
 
@@ -32,7 +27,12 @@ export function Layout({ children, title, showSavedProfiles = true }: LayoutProp
       <Background3D />
       <Floating3DElements />
       <div className="relative z-10">
-        <header className="border-b border-purple-500/20 bg-black/40 backdrop-blur-xl sticky top-0 z-40">
+        <motion.header
+          className="border-b border-purple-500/20 bg-black/40 backdrop-blur-xl sticky top-0 z-40"
+          initial={{ y: -80, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <Link to="/" className="flex items-center gap-3 group" aria-label="Go to homepage">
@@ -54,10 +54,8 @@ export function Layout({ children, title, showSavedProfiles = true }: LayoutProp
                   return (
                     <Link key={p.path} to={p.path}>
                       <motion.span
-                        className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
-                          isActive
-                            ? "text-purple-300"
-                            : "text-gray-400 hover:text-white"
+                        className={`relative flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+                          isActive ? "text-purple-300" : "text-gray-400 hover:text-white"
                         }`}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
@@ -84,10 +82,15 @@ export function Layout({ children, title, showSavedProfiles = true }: LayoutProp
               </div>
             </div>
           </div>
-        </header>
+        </motion.header>
 
         {/* Mobile nav */}
-        <div className="md:hidden border-b border-purple-500/20 bg-black/30 backdrop-blur-lg">
+        <motion.div
+          className="md:hidden border-b border-purple-500/20 bg-black/30 backdrop-blur-lg"
+          initial={{ y: -40, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.15 }}
+        >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-center gap-1 py-2">
               {platforms.map((p) => {
@@ -109,34 +112,28 @@ export function Layout({ children, title, showSavedProfiles = true }: LayoutProp
               })}
             </div>
           </div>
-        </div>
+        </motion.div>
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {title && (
-            <motion.header
-              className="mb-8"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <h1 className="text-3xl md:text-4xl font-bold font-sans bg-gradient-to-r from-purple-300 via-pink-300 to-purple-300 bg-clip-text text-transparent">
-                {title}
-              </h1>
-            </motion.header>
+            <Reveal direction="left" delay={0.1}>
+              <header className="mb-8">
+                <h1 className="text-3xl md:text-4xl font-bold font-sans bg-gradient-to-r from-purple-300 via-pink-300 to-purple-300 bg-clip-text text-transparent">
+                  {title}
+                </h1>
+              </header>
+            </Reveal>
           )}
 
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={location.pathname}
-              variants={pageVariants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              className="backdrop-blur-xl rounded-2xl bg-white/5 p-6 shadow-2xl shadow-purple-500/10 border border-purple-500/20"
-            >
-              {children}
-            </motion.div>
-          </AnimatePresence>
+          <Reveal direction="up" delay={0.2}>
+            <div className="relative backdrop-blur-xl rounded-2xl bg-white/5 p-6 shadow-2xl shadow-purple-500/10 border border-purple-500/20 overflow-hidden">
+              {/* Animated gradient border shine */}
+              <div className="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
+                <div className="absolute -inset-[100%] animate-[shimmer_6s_linear_infinite] bg-[conic-gradient(from_0deg,transparent,rgba(168,85,247,0.08),rgba(236,72,153,0.08),transparent)]" />
+              </div>
+              <div className="relative z-10">{children}</div>
+            </div>
+          </Reveal>
         </main>
       </div>
     </div>
