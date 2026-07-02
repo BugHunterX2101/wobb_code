@@ -39,6 +39,18 @@ interface GeoShape {
   opacity: number;
 }
 
+interface FloatingText {
+  x: number;
+  y: number;
+  text: string;
+  size: number;
+  alpha: number;
+  speed: number;
+  drift: number;
+  hue: number;
+  phase: number;
+}
+
 export function Background3D() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: 0, y: 0 });
@@ -46,6 +58,7 @@ export function Background3D() {
   const particlesRef = useRef<Particle[]>([]);
   const orbsRef = useRef<Orb[]>([]);
   const shapesRef = useRef<GeoShape[]>([]);
+  const textsRef = useRef<FloatingText[]>([]);
   const [mounted, setMounted] = useState(false);
 
   const initParticles = useCallback((width: number, height: number) => {
@@ -98,6 +111,31 @@ export function Background3D() {
       });
     }
     shapesRef.current = shapes;
+
+    const texts: FloatingText[] = [];
+    const words = [
+      "🔥", "✨", "💜", "🚀", "💎", "👑", "🌟", "⚡", "🎯", "💡", "💪", "🔗", "📈", "🏆", "💯",
+      "fire", "lit", "goat", "flex", "hype", "drip", "slay", "vibe", "glow", "dub",
+      "#trending", "#viral", "#collab", "#creator", "#sponsored", "#partnership",
+      "influenceur", "créateur", "tendance", "प्रभाव", "निर्माता",
+      "influyente", "creador", "tendência",
+      "collab", "reach", "growth", "brand", "content", "engage",
+    ];
+    for (let i = 0; i < 60; i++) {
+      const word = words[i % words.length];
+      texts.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        text: word,
+        size: 10 + Math.random() * 8,
+        alpha: Math.random() * 0.12 + 0.03,
+        speed: 0.15 + Math.random() * 0.25,
+        drift: (Math.random() - 0.5) * 0.3,
+        hue: [280, 320, 260, 300, 340, 270, 290, 310][i % 8],
+        phase: Math.random() * Math.PI * 2,
+      });
+    }
+    textsRef.current = texts;
   }, []);
 
   useEffect(() => {
@@ -339,6 +377,30 @@ export function Background3D() {
           ctx.fillRect(-half, -cw, sz, cw * 2);
         }
 
+        ctx.restore();
+      });
+
+      // --- Floating text / emoji / slang ---
+      textsRef.current.forEach((tx) => {
+        tx.y -= tx.speed;
+        tx.x += Math.sin(t + tx.phase) * tx.drift;
+
+        if (tx.y < -30) {
+          tx.y = h + 30;
+          tx.x = Math.random() * w;
+        }
+
+        const wobble = Math.sin(t * 2 + tx.phase) * 3;
+        const fade = Math.min(1, (h - tx.y) / (h * 0.3));
+
+        ctx.save();
+        ctx.globalAlpha = tx.alpha * fade;
+        ctx.fillStyle = `hsla(${tx.hue}, 70%, 70%, 1)`;
+        ctx.font = `${tx.size}px "Inter", system-ui, sans-serif`;
+        ctx.textAlign = "center";
+        ctx.shadowColor = `hsla(${tx.hue}, 80%, 60%, 0.4)`;
+        ctx.shadowBlur = 10;
+        ctx.fillText(tx.text, tx.x + wobble, tx.y);
         ctx.restore();
       });
 
